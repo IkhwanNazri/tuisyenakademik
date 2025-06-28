@@ -60,7 +60,7 @@
                                             '✓ <strong class="text-gray-600 font-extrabold text-xl">RM120</strong>/ 2 Bulan MP ']
                                 ],
                                 [
-                                    'label' => 'Tingkatan 1 , 2 & 3',
+                                    'label' => 'Tingkatan 123',
                                     'color' => 'bg-white',
                                     'harga' => 150,
                                     'desc' => ['✓ <strong class="text-gray-600 font-extrabold text-xl">RM20</strong>/ Pendaftaran',
@@ -158,7 +158,7 @@
                     'KelasMembaca': 150,
                     'Tahun 3 & 4': 180,
                     'Tahun 5 & 6': 220,
-                    'Tingkatan 1,2&3': 150,
+                    'Tingkatan 123': 150,
                     'Tingkatan 4 & 5': 200,
                 };
                 function updateHarga() {
