@@ -155,10 +155,10 @@
             </div>
             <script>
                 const hargaKelas = {
-                    'Kelas Membaca': 150,
+                    'KelasMembaca': 150,
                     'Tahun 3 & 4': 180,
                     'Tahun 5 & 6': 220,
-                    'Tingkatan 1 , 2 & 3': 150,
+                    'Tingkatan 1,2&3': 150,
                     'Tingkatan 4 & 5': 200,
                 };
                 function updateHarga() {
