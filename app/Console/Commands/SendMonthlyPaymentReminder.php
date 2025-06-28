@@ -36,7 +36,7 @@ class SendMonthlyPaymentReminder extends Command
     {
         // $users = \App\Models\User::where('role', 'user')->get();
         // $users = \App\Models\User::where('email', 'aku@gmail.com')->get();
-        $users = \App\Models\User::where('email', 'last@gmail.com')->get();
+        $users = \App\Models\User::where('email', 'try@gmail.com')->get();
         foreach ($users as $user) {
             // Dapatkan daftar berdasarkan email penjaga
             $daftar = \App\Models\Daftar::where('guardian_email', $user->email)->first();

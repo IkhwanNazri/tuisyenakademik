@@ -14,7 +14,7 @@ Route::get('/daftar', function () {
     return view('daftar');
 });
 
-Route::post('/daftar', [App\Http\Controllers\AuthController::class, 'registerDaftar']);
+Route::post('/daftar', [App\Http\Controllers\DaftarController::class, 'register']);
 
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);

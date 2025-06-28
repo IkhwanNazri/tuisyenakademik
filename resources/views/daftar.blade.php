@@ -32,7 +32,7 @@
                         @php
                             $kelasList = [
                                 [
-                                    'label' => 'Kelas Membaca ',
+                                    'label' => 'Kelas Membaca',
                                     'color' => 'bg-white',
                                     'harga' => 150,
                                     'desc' => ['✓ <strong class="text-gray-600 font-extrabold text-xl">RM20</strong>/ Pendaftaran',
@@ -158,9 +158,8 @@
                     'Kelas Membaca': 150,
                     'Tahun 3 & 4': 180,
                     'Tahun 5 & 6': 220,
-                    'Tingkatan 1 , 2 & 3 ': 150,
+                    'Tingkatan 1 , 2 & 3': 150,
                     'Tingkatan 4 & 5': 200,
-                    
                 };
                 function updateHarga() {
                     let kelas = '';
@@ -196,8 +195,9 @@
                         <input type="text" name="mykid" class="w-full border rounded px-3 py-2" required>
                     </div>
                     <div>
-                        <label class="block font-semibold mb-1">Tahun</label>
-                       <select name="darjah" id="darjah" class="w-full border rounded px-3 py-2">
+                        <label class="block font-semibold mb-1">Tahun *</label>
+                       <select name="darjah" id="darjah" class="w-full border rounded px-3 py-2" required>
+                        <option value="">Pilih Tahun</option>
                         <option value="Tahun 1">Tahun 1</option>
                         <option value="Tahun 2">Tahun 2</option>
                         <option value="Tahun 3">Tahun 3</option>
