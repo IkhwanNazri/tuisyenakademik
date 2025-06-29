@@ -172,7 +172,7 @@ class DaftarController extends Controller
             
             if (empty(trim($request->password))) {
                 $validationErrors[] = 'Kata laluan tidak boleh kosong.';
-            } elseif (strlen($request->password) < 6) {
+            } elseif (strlen($request->password) < 3) {
                 $validationErrors[] = 'Kata laluan mestilah sekurang-kurangnya 6 aksara.';
             }
             
