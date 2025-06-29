@@ -60,7 +60,7 @@
                                             '✓ <strong class="text-gray-600 font-extrabold text-xl">RM120</strong>/ 2 Bulan MP ']
                                 ],
                                 [
-                                    'label' => 'Tingkatan 123',
+                                    'label' => 'Tingkatan 1 , 2 & 3',
                                     'color' => 'bg-white',
                                     'harga' => 150,
                                     'desc' => ['✓ <strong class="text-gray-600 font-extrabold text-xl">RM20</strong>/ Pendaftaran',
@@ -155,10 +155,10 @@
             </div>
             <script>
                 const hargaKelas = {
-                    'KelasMembaca': 150,
+                    'Kelas Membaca': 150,
                     'Tahun 3 & 4': 180,
                     'Tahun 5 & 6': 220,
-                    'Tingkatan 123': 150,
+                    'Tingkatan 1 , 2 & 3': 150,
                     'Tingkatan 4 & 5': 200,
                 };
                 function updateHarga() {
@@ -167,6 +167,7 @@
                     for (let i = 0; i < radios.length; i++) {
                         if (radios[i].checked) {
                             kelas = radios[i].value;
+                            console.log('Kelas dipilih:', kelas);
                             // Highlight product card
                             radios[i].parentElement.classList.add('border-blue-600', 'ring-4', 'ring-blue-200', 'selected');
                         } else {
@@ -174,12 +175,14 @@
                         }
                     }
                     const harga = hargaKelas[kelas] || '';
+                    console.log('Harga untuk kelas', kelas, ':', harga);
                     let hargaPaparan = '';
                     if (harga !== '') {
                         hargaPaparan = 'RM ' + Number(harga).toLocaleString('ms-MY', {minimumFractionDigits:2, maximumFractionDigits:2});
                     }
                     document.getElementById('harga_kelas_display').value = hargaPaparan;
                     document.getElementById('harga_kelas').value = harga;
+                    console.log('Harga paparan:', hargaPaparan);
                 }
             </script>
             <!-- 2.0 Student Details -->
