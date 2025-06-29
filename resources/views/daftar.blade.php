@@ -161,23 +161,70 @@
                     'Tingkatan 1 , 2 & 3': 150,
                     'Tingkatan 4 & 5': 200,
                 };
+                
+                // Debug: Log semua key yang ada
+                console.log('Semua key dalam hargaKelas:', Object.keys(hargaKelas));
+                
                 function updateHarga() {
                     let kelas = '';
                     const radios = document.getElementsByClassName('kelas-radio');
+                    console.log('Jumlah radio button:', radios.length);
+                    
                     for (let i = 0; i < radios.length; i++) {
+                        console.log('Radio', i, 'value:', radios[i].value, 'checked:', radios[i].checked);
                         if (radios[i].checked) {
                             kelas = radios[i].value;
                             console.log('Kelas dipilih:', kelas);
+                            console.log('Panjang string kelas:', kelas.length);
+                            console.log('Kelas dalam quotes:', '"' + kelas + '"');
+                            
+                            // Test untuk setiap key
+                            Object.keys(hargaKelas).forEach(key => {
+                                console.log('Membandingkan dengan key:', '"' + key + '"', 'Panjang:', key.length);
+                                console.log('Sama?', kelas === key);
+                                console.log('Sama (trim)?', kelas.trim() === key.trim());
+                            });
+                            
                             // Highlight product card
                             radios[i].parentElement.classList.add('border-blue-600', 'ring-4', 'ring-blue-200', 'selected');
                         } else {
                             radios[i].parentElement.classList.remove('border-blue-600', 'ring-4', 'ring-blue-200', 'selected');
                         }
                     }
-                    const harga = hargaKelas[kelas] || '';
+                    
+                    console.log('Kelas akhir:', kelas);
+                    console.log('Kelas dalam hargaKelas:', kelas in hargaKelas);
+                    
+                    // Penyelesaian yang lebih robust
+                    let harga = 0;
+                    const kelasTrim = kelas.trim();
+                    
+                    // Cuba cari dengan exact match
+                    if (hargaKelas[kelas]) {
+                        harga = hargaKelas[kelas];
+                        console.log('Dijumpai dengan exact match');
+                    }
+                    // Cuba cari dengan trim
+                    else if (hargaKelas[kelasTrim]) {
+                        harga = hargaKelas[kelasTrim];
+                        console.log('Dijumpai dengan trim');
+                    }
+                    // Cuba cari dengan partial match
+                    else {
+                        const keys = Object.keys(hargaKelas);
+                        for (let key of keys) {
+                            if (kelas.includes(key) || key.includes(kelas)) {
+                                harga = hargaKelas[key];
+                                console.log('Dijumpai dengan partial match:', key);
+                                break;
+                            }
+                        }
+                    }
+                    
                     console.log('Harga untuk kelas', kelas, ':', harga);
+                    
                     let hargaPaparan = '';
-                    if (harga !== '') {
+                    if (harga !== 0) {
                         hargaPaparan = 'RM ' + Number(harga).toLocaleString('ms-MY', {minimumFractionDigits:2, maximumFractionDigits:2});
                     }
                     document.getElementById('harga_kelas_display').value = hargaPaparan;
