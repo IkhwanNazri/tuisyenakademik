@@ -154,6 +154,8 @@
                 
             </div>
             <script>
+                console.log('JavaScript dimuat!');
+                
                 const hargaKelas = {
                     'Kelas Membaca': 150,
                     'Tahun 3 & 4': 180,
@@ -166,6 +168,7 @@
                 console.log('Semua key dalam hargaKelas:', Object.keys(hargaKelas));
                 
                 function updateHarga() {
+                    console.log('updateHarga() dipanggil!');
                     let kelas = '';
                     const radios = document.getElementsByClassName('kelas-radio');
                     console.log('Jumlah radio button:', radios.length);
@@ -231,6 +234,22 @@
                     document.getElementById('harga_kelas').value = harga;
                     console.log('Harga paparan:', hargaPaparan);
                 }
+                
+                // Tambah event listener apabila DOM siap
+                document.addEventListener('DOMContentLoaded', function() {
+                    console.log('DOM siap!');
+                    
+                    // Tambah event listener untuk semua radio button
+                    const radios = document.getElementsByClassName('kelas-radio');
+                    console.log('Menambah event listener untuk', radios.length, 'radio button');
+                    
+                    for (let i = 0; i < radios.length; i++) {
+                        radios[i].addEventListener('change', function() {
+                            console.log('Radio button', i, 'berubah!');
+                            updateHarga();
+                        });
+                    }
+                });
             </script>
             <!-- 2.0 Student Details -->
             <div class="mt-6 border-t pt-6">
