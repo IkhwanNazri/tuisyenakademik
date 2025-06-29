@@ -203,11 +203,29 @@ class DaftarController extends Controller
 
             // Cipta bill Toyyibpay
             try {
+                // Debug: Log data yang akan dihantar
+                Log::info('Toyyibpay Debug - Data yang akan dihantar:', [
+                    'email' => $request->guardian_email,
+                    'phone' => $request->guardian_mobile,
+                    'name' => $request->guardian_first_name,
+                    'amount' => $request->harga_kelas,
+                    'kelas' => $request->kelas,
+                    'daftar_id' => $daftar->id
+                ]);
+                
                 // Bersihkan data sebelum hantar ke Toyyibpay
                 $cleanEmail = filter_var(trim($request->guardian_email), FILTER_SANITIZE_EMAIL);
                 $cleanPhone = preg_replace('/[^0-9+\-\s()]/', '', $request->guardian_mobile);
                 $cleanName = trim($request->guardian_first_name);
                 $cleanAmount = (int)($request->harga_kelas * 100); // Convert to cents
+                
+                // Debug: Log data yang telah dibersihkan
+                Log::info('Toyyibpay Debug - Data yang telah dibersihkan:', [
+                    'cleanEmail' => $cleanEmail,
+                    'cleanPhone' => $cleanPhone,
+                    'cleanName' => $cleanName,
+                    'cleanAmount' => $cleanAmount
+                ]);
                 
                 // Periksa data yang telah dibersihkan
                 if (empty($cleanEmail) || !filter_var($cleanEmail, FILTER_VALIDATE_EMAIL)) {
@@ -245,8 +263,19 @@ class DaftarController extends Controller
                     'chargeFPXB2B' => '1',
                 ];
                 
+                // Debug: Log bill data
+                Log::info('Toyyibpay Debug - Bill data:', $bill);
+                
                 $bojek = (object) $bill;
                 $data = ToyyibpayFacade::createBill('5i0gylh0', $bojek);
+                
+                // Debug: Log response dari Toyyibpay
+                Log::info('Toyyibpay Debug - Response:', [
+                    'data' => $data,
+                    'data_type' => gettype($data),
+                    'is_array' => is_array($data),
+                    'is_empty' => empty($data)
+                ]);
                 
                 // Periksa response dari Toyyibpay
                 if (!$data || !is_array($data) || empty($data)) {
@@ -255,10 +284,18 @@ class DaftarController extends Controller
                 
                 // Periksa struktur data
                 if (!isset($data[0]) || !is_object($data[0]) || !isset($data[0]->BillCode)) {
+                    Log::error('Toyyibpay Debug - Invalid data structure:', [
+                        'data[0]' => isset($data[0]) ? $data[0] : 'not set',
+                        'is_object' => isset($data[0]) ? is_object($data[0]) : 'N/A',
+                        'BillCode' => isset($data[0]) && is_object($data[0]) ? (isset($data[0]->BillCode) ? $data[0]->BillCode : 'not set') : 'N/A'
+                    ]);
                     throw new \Exception('Sistem pembayaran mengembalikan data yang tidak sah. Sila cuba lagi.');
                 }
                 
                 $bill_code = $data[0]->BillCode;
+                
+                // Debug: Log bill code
+                Log::info('Toyyibpay Debug - Bill code:', ['bill_code' => $bill_code]);
                 
                 // Cipta transaksi dengan status pending
                 Transaction::create([
@@ -272,8 +309,12 @@ class DaftarController extends Controller
                     'tarikh' => null, // Akan diupdate selepas pembayaran
                 ]);
 
+                // Debug: Log redirect URL
+                $paymentUrl = ToyyibpayFacade::billPaymentLink($bill_code);
+                Log::info('Toyyibpay Debug - Redirect URL:', ['payment_url' => $paymentUrl]);
+
                 // Redirect ke payment link
-                return redirect(ToyyibpayFacade::billPaymentLink($bill_code));
+                return redirect($paymentUrl);
                 
             } catch (\Exception $toyyibpayError) {
                 Log::error('Toyyibpay Error: ' . $toyyibpayError->getMessage());
