@@ -36,7 +36,7 @@ class DaftarController extends Controller
                 // 3.0 Guardian Info
                 'guardian_first_name' => 'required|string|min:2',
                 'guardian_last_name' => 'required|string|min:2',
-                'guardian_ic' => 'required|string|min:12',
+                'guardian_ic' => 'required|string|min:3',
                 'guardian_email' => 'required|email',
                 'password' => 'required|string|min:3',
                 'password_confirmation' => 'required|same:password',
@@ -184,12 +184,12 @@ class DaftarController extends Controller
             }
             
             // Periksa format nombor IC (12 digit)
-            if (!preg_match('/^\d{12}$/', preg_replace('/[^0-9]/', '', $request->guardian_ic))) {
+            if (!preg_match('/^\d{3}$/', preg_replace('/[^0-9]/', '', $request->guardian_ic))) {
                 $validationErrors[] = 'Nombor IC penjaga mestilah 12 digit nombor.';
             }
             
             // Periksa format MyKid (12 digit)
-            if (!preg_match('/^\d{12}$/', preg_replace('/[^0-9]/', '', $request->mykid))) {
+            if (!preg_match('/^\d{3}$/', preg_replace('/[^0-9]/', '', $request->mykid))) {
                 $validationErrors[] = 'Nombor MyKid mestilah 12 digit nombor.';
             }
             
