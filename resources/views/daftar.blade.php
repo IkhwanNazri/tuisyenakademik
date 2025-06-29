@@ -127,29 +127,35 @@
                 </div>
                 <div>
                     <label class="block font-semibold mb-1">Year Intake *</label>
-                    <select name="year_intake" class="w-full border rounded px-3 py-2" required>
+                    <select name="year_intake" class="w-full border rounded px-3 py-2 {{ $errors->has('year_intake') ? 'border-red-500' : '' }}" required>
                         <option value="">Pilih Tahun</option>
-                        <option value="2025">2025</option>
-                        <option value="2026">2026</option>
+                        <option value="2025" {{ old('year_intake') == '2025' ? 'selected' : '' }}>2025</option>
+                        <option value="2026" {{ old('year_intake') == '2026' ? 'selected' : '' }}>2026</option>
                     </select>
+                    @if($errors->has('year_intake'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('year_intake') }}</p>
+                    @endif
                 </div>
                 <div>
                     <label class="block font-semibold mb-1">Enrollment Start *</label>
-                    <select name="enrollment_start" class="w-full border rounded px-3 py-2" required>
+                    <select name="enrollment_start" class="w-full border rounded px-3 py-2 {{ $errors->has('enrollment_start') ? 'border-red-500' : '' }}" required>
                         <option value="">Pilih Bulan</option>
-                        <option value="JANUARI">JANUARI</option>
-                        <option value="FEBRUARI">FEBRUARI</option>
-                        <option value="MAC">MAC</option>
-                        <option value="APRIL">APRIL</option>
-                        <option value="MEI">MEI</option>
-                        <option value="JUN">JUN</option>
-                        <option value="JULAI">JULAI</option>
-                        <option value="OGOS">OGOS</option>
-                        <option value="SEPTEMBER">SEPTEMBER</option>
-                        <option value="OKTOBER">OKTOBER</option>
-                        <option value="NOVEMBER">NOVEMBER</option>
-                        <option value="DISEMBER">DISEMBER</option>
+                        <option value="JANUARI" {{ old('enrollment_start') == 'JANUARI' ? 'selected' : '' }}>JANUARI</option>
+                        <option value="FEBRUARI" {{ old('enrollment_start') == 'FEBRUARI' ? 'selected' : '' }}>FEBRUARI</option>
+                        <option value="MAC" {{ old('enrollment_start') == 'MAC' ? 'selected' : '' }}>MAC</option>
+                        <option value="APRIL" {{ old('enrollment_start') == 'APRIL' ? 'selected' : '' }}>APRIL</option>
+                        <option value="MEI" {{ old('enrollment_start') == 'MEI' ? 'selected' : '' }}>MEI</option>
+                        <option value="JUN" {{ old('enrollment_start') == 'JUN' ? 'selected' : '' }}>JUN</option>
+                        <option value="JULAI" {{ old('enrollment_start') == 'JULAI' ? 'selected' : '' }}>JULAI</option>
+                        <option value="OGOS" {{ old('enrollment_start') == 'OGOS' ? 'selected' : '' }}>OGOS</option>
+                        <option value="SEPTEMBER" {{ old('enrollment_start') == 'SEPTEMBER' ? 'selected' : '' }}>SEPTEMBER</option>
+                        <option value="OKTOBER" {{ old('enrollment_start') == 'OKTOBER' ? 'selected' : '' }}>OKTOBER</option>
+                        <option value="NOVEMBER" {{ old('enrollment_start') == 'NOVEMBER' ? 'selected' : '' }}>NOVEMBER</option>
+                        <option value="DISEMBER" {{ old('enrollment_start') == 'DISEMBER' ? 'selected' : '' }}>DISEMBER</option>
                     </select>
+                    @if($errors->has('enrollment_start'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('enrollment_start') }}</p>
+                    @endif
                 </div>
                 
             </div>
@@ -257,30 +263,39 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block font-semibold mb-1">Nama *</label>
-                        <input type="text" name="student_name" class="w-full border rounded px-3 py-2" required>
+                        <input type="text" name="student_name" value="{{ old('student_name') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('student_name') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('student_name'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('student_name') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">MyKID *</label>
-                        <input type="text" name="mykid" class="w-full border rounded px-3 py-2" required>
+                        <input type="text" name="mykid" value="{{ old('mykid') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('mykid') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('mykid'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('mykid') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Tahun *</label>
-                       <select name="darjah" id="darjah" class="w-full border rounded px-3 py-2" required>
+                       <select name="darjah" id="darjah" class="w-full border rounded px-3 py-2 {{ $errors->has('darjah') ? 'border-red-500' : '' }}" required>
                         <option value="">Pilih Tahun</option>
-                        <option value="Tahun 1">Tahun 1</option>
-                        <option value="Tahun 2">Tahun 2</option>
-                        <option value="Tahun 3">Tahun 3</option>
-                        <option value="Tahun 4">Tahun 4</option>
-                        <option value="Tahun 5">Tahun 5</option>
-                        <option value="Tahun 6">Tahun 6</option>
-                        <option value="Tingkatan 1">Tingkatan 1</option>
-                        <option value="Tingkatan 2">Tingkatan 2</option>
-                        <option value="Tingkatan 3">Tingkatan 3</option>
-                        <option value="Tingkatan 4">Tingkatan 4</option>
-                        <option value="Tingkatan 5">Tingkatan 5</option>
-                        <option value="Lain">Lain-lain</option>
+                        <option value="Tahun 1" {{ old('darjah') == 'Tahun 1' ? 'selected' : '' }}>Tahun 1</option>
+                        <option value="Tahun 2" {{ old('darjah') == 'Tahun 2' ? 'selected' : '' }}>Tahun 2</option>
+                        <option value="Tahun 3" {{ old('darjah') == 'Tahun 3' ? 'selected' : '' }}>Tahun 3</option>
+                        <option value="Tahun 4" {{ old('darjah') == 'Tahun 4' ? 'selected' : '' }}>Tahun 4</option>
+                        <option value="Tahun 5" {{ old('darjah') == 'Tahun 5' ? 'selected' : '' }}>Tahun 5</option>
+                        <option value="Tahun 6" {{ old('darjah') == 'Tahun 6' ? 'selected' : '' }}>Tahun 6</option>
+                        <option value="Tingkatan 1" {{ old('darjah') == 'Tingkatan 1' ? 'selected' : '' }}>Tingkatan 1</option>
+                        <option value="Tingkatan 2" {{ old('darjah') == 'Tingkatan 2' ? 'selected' : '' }}>Tingkatan 2</option>
+                        <option value="Tingkatan 3" {{ old('darjah') == 'Tingkatan 3' ? 'selected' : '' }}>Tingkatan 3</option>
+                        <option value="Tingkatan 4" {{ old('darjah') == 'Tingkatan 4' ? 'selected' : '' }}>Tingkatan 4</option>
+                        <option value="Tingkatan 5" {{ old('darjah') == 'Tingkatan 5' ? 'selected' : '' }}>Tingkatan 5</option>
+                        <option value="Lain" {{ old('darjah') == 'Lain' ? 'selected' : '' }}>Lain-lain</option>
                         
                        </select>
+                       @if($errors->has('darjah'))
+                           <p class="text-red-500 text-sm mt-1">{{ $errors->first('darjah') }}</p>
+                       @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Agama *</label>
@@ -324,27 +339,45 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block font-semibold mb-1">Nama Pertama *</label>
-                        <input type="text" name="guardian_first_name" class="w-full border rounded px-3 py-2" required>
+                        <input type="text" name="guardian_first_name" value="{{ old('guardian_first_name') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_first_name') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('guardian_first_name'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_first_name') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Nama Akhir *</label>
-                        <input type="text" name="guardian_last_name" class="w-full border rounded px-3 py-2" required>
+                        <input type="text" name="guardian_last_name" value="{{ old('guardian_last_name') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_last_name') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('guardian_last_name'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_last_name') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">No. IC *</label>
-                        <input type="text" name="guardian_ic" class="w-full border rounded px-3 py-2" required>
+                        <input type="text" name="guardian_ic" value="{{ old('guardian_ic') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_ic') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('guardian_ic'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_ic') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Email *</label>
-                        <input type="email" name="guardian_email" class="w-full border rounded px-3 py-2" required>
+                        <input type="email" name="guardian_email" value="{{ old('guardian_email') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_email') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('guardian_email'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_email') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Password *</label>
-                        <input type="password" name="password" class="w-full border rounded px-3 py-2" required>
+                        <input type="password" name="password" class="w-full border rounded px-3 py-2 {{ $errors->has('password') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('password'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('password') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Pengesahan Password *</label>
-                        <input type="password" name="password_confirmation" class="w-full border rounded px-3 py-2" required>
+                        <input type="password" name="password_confirmation" class="w-full border rounded px-3 py-2 {{ $errors->has('password_confirmation') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('password_confirmation'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('password_confirmation') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Hubungan *</label>
@@ -396,17 +429,20 @@
             <!-- 6.0 How do you know about us -->
             <div class="mt-6 border-t pt-6">
                 <h2 class="text-xl font-bold mb-2">Bagaimana Anda Tahu Tentang Kami?</h2>
-                <select name="how_know" class="w-full border rounded px-3 py-2" required>
+                <select name="how_know" class="w-full border rounded px-3 py-2 {{ $errors->has('how_know') ? 'border-red-500' : '' }}" required>
                     <option value="">Pilih</option>
-                    <option value="Facebook">Facebook</option>
-                    <option value="Instagram">Instagram</option>
-                    <option value="Referred Family/Friends">Referred Family/Friends</option>
-                    <option value="Radio">Radio</option>
-                    <option value="Television">Television</option>
-                    <option value="Street banner">Street banner</option>
-                    <option value="Google">Google</option>
-                    <option value="Others">Others</option>
+                    <option value="Facebook" {{ old('how_know') == 'Facebook' ? 'selected' : '' }}>Facebook</option>
+                    <option value="Instagram" {{ old('how_know') == 'Instagram' ? 'selected' : '' }}>Instagram</option>
+                    <option value="Referred Family/Friends" {{ old('how_know') == 'Referred Family/Friends' ? 'selected' : '' }}>Referred Family/Friends</option>
+                    <option value="Radio" {{ old('how_know') == 'Radio' ? 'selected' : '' }}>Radio</option>
+                    <option value="Television" {{ old('how_know') == 'Television' ? 'selected' : '' }}>Television</option>
+                    <option value="Street banner" {{ old('how_know') == 'Street banner' ? 'selected' : '' }}>Street banner</option>
+                    <option value="Google" {{ old('how_know') == 'Google' ? 'selected' : '' }}>Google</option>
+                    <option value="Others" {{ old('how_know') == 'Others' ? 'selected' : '' }}>Others</option>
                 </select>
+                @if($errors->has('how_know'))
+                    <p class="text-red-500 text-sm mt-1">{{ $errors->first('how_know') }}</p>
+                @endif
             </div>
             <div class="mt-8 text-center">
                 <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition">Hantar Permohonan</button>

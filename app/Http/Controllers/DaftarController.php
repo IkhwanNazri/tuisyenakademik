@@ -10,45 +10,83 @@ use App\Models\Transaction;
 use Tarsoft\Toyyibpay\ToyyibpayFacade;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 
 class DaftarController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
-            // 1.0 Enrollment Information
-            'year_intake' => 'required|string',
-            'enrollment_start' => 'required|string',
-            'kelas' => 'required|string',
-            'harga_kelas' => 'required|numeric',
-            
-            // 2.0 Student Details
-            'student_name' => 'required|string|max:255',
-            'mykid' => 'required|string|max:255',
-            'darjah' => 'required|string',
-            'religion' => 'required|string',
-            'race' => 'required|string',
-            'gender' => 'required|string',
-            'birth_date' => 'required|date',
-            
-            // 3.0 Guardian Info
-            'guardian_first_name' => 'required|string|max:255',
-            'guardian_last_name' => 'required|string|max:255',
-            'guardian_ic' => 'required|string|max:255',
-            'guardian_email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:3',
-            'guardian_relation' => 'required|string',
-            'guardian_mobile' => 'required|string',
-            'guardian_home' => 'nullable|string',
-            'guardian_address' => 'required|string',
-            'guardian_occupation' => 'nullable|string',
-            'guardian_salary' => 'required|string',
-            
-            // 6.0 How do you know about us
-            'how_know' => 'required|string',
-        ]);
-
         try {
+            $request->validate([
+                // 1.0 Enrollment Information
+                'year_intake' => 'required|string',
+                'enrollment_start' => 'required|string',
+                'kelas' => 'required|string',
+                'harga_kelas' => 'required|numeric',
+                
+                // 2.0 Student Details
+                'student_name' => 'required|string|max:255',
+                'mykid' => 'required|string|max:255',
+                'darjah' => 'required|string',
+                'religion' => 'required|string',
+                'race' => 'required|string',
+                'gender' => 'required|string',
+                'birth_date' => 'required|date',
+                
+                // 3.0 Guardian Info
+                'guardian_first_name' => 'required|string|max:255',
+                'guardian_last_name' => 'required|string|max:255',
+                'guardian_ic' => 'required|string|max:255',
+                'guardian_email' => 'required|email|unique:users,email',
+                'password' => 'required|confirmed|min:3',
+                'guardian_relation' => 'required|string',
+                'guardian_mobile' => 'required|string',
+                'guardian_home' => 'nullable|string',
+                'guardian_address' => 'required|string',
+                'guardian_occupation' => 'nullable|string',
+                'guardian_salary' => 'required|string',
+                
+                // 6.0 How do you know about us
+                'how_know' => 'required|string',
+            ], [
+                // Custom error messages dalam Bahasa Melayu
+                'year_intake.required' => 'Sila pilih tahun pengambilan.',
+                'enrollment_start.required' => 'Sila pilih bulan mula pengambilan.',
+                'kelas.required' => 'Sila pilih kelas.',
+                'harga_kelas.required' => 'Harga kelas diperlukan.',
+                'harga_kelas.numeric' => 'Harga kelas mestilah nombor.',
+                
+                'student_name.required' => 'Nama pelajar diperlukan.',
+                'student_name.max' => 'Nama pelajar tidak boleh melebihi 255 aksara.',
+                'mykid.required' => 'Nombor MyKID diperlukan.',
+                'mykid.max' => 'Nombor MyKID tidak boleh melebihi 255 aksara.',
+                'darjah.required' => 'Sila pilih tahun/darjah.',
+                'religion.required' => 'Sila pilih agama.',
+                'race.required' => 'Sila pilih bangsa.',
+                'gender.required' => 'Sila pilih jantina.',
+                'birth_date.required' => 'Tarikh lahir diperlukan.',
+                'birth_date.date' => 'Format tarikh lahir tidak sah.',
+                
+                'guardian_first_name.required' => 'Nama pertama penjaga diperlukan.',
+                'guardian_first_name.max' => 'Nama pertama tidak boleh melebihi 255 aksara.',
+                'guardian_last_name.required' => 'Nama akhir penjaga diperlukan.',
+                'guardian_last_name.max' => 'Nama akhir tidak boleh melebihi 255 aksara.',
+                'guardian_ic.required' => 'Nombor IC penjaga diperlukan.',
+                'guardian_ic.max' => 'Nombor IC tidak boleh melebihi 255 aksara.',
+                'guardian_email.required' => 'Alamat email diperlukan.',
+                'guardian_email.email' => 'Format email tidak sah. Sila masukkan email yang betul (contoh: nama@email.com).',
+                'guardian_email.unique' => 'Email ini sudah didaftarkan. Sila gunakan email lain.',
+                'password.required' => 'Kata laluan diperlukan.',
+                'password.confirmed' => 'Pengesahan kata laluan tidak sepadan.',
+                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 3 aksara.',
+                'guardian_relation.required' => 'Sila pilih hubungan dengan pelajar.',
+                'guardian_mobile.required' => 'Nombor telefon bimbit diperlukan.',
+                'guardian_address.required' => 'Alamat rumah diperlukan.',
+                'guardian_salary.required' => 'Sila pilih julat gaji.',
+                
+                'how_know.required' => 'Sila pilih bagaimana anda tahu tentang kami.',
+            ]);
+
             // Simpan ke table daftars
             $daftar = Daftar::create([
                 // 1.0 Enrollment Information
@@ -123,6 +161,9 @@ class DaftarController extends Controller
             // Redirect ke payment link
             return redirect(ToyyibpayFacade::billPaymentLink($bill_code));
 
+        } catch (ValidationException $e) {
+            // Return dengan error validation yang mesra pengguna
+            return redirect('/daftar')->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             Log::error('Error dalam pendaftaran: ' . $e->getMessage());
             return redirect('/daftar')->with('error', 'Ralat dalam pendaftaran. Sila cuba lagi.');
