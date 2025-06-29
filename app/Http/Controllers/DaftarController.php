@@ -123,43 +123,68 @@ class DaftarController extends Controller
             ]);
 
             // Cipta bill Toyyibpay
-            $bill = [
-                'userSecretKey' => '5u2u5cii-sor5-2w3r-ubu1-z4mspf0i8ekb',
-                'categoryCode' => '5i0gylh0',
-                'billName' => 'Pendaftaran Kelas',
-                'billDescription' => 'Bayaran kelas: ' . $request->kelas,
-                'billPriceSetting' => 1,
-                'billPayorInfo' => 1,
-                'billExternalReferenceNo' => 'AFR341DFI',
-                'billAmount' => $request->harga_kelas * 100,
-                'billReturnUrl' => route('toyyibpay.callback', ['daftar_id' => $daftar->id]),
-                'billCallbackUrl' => route('toyyibpay.callback', ['daftar_id' => $daftar->id]),
-                'billTo' => $request->guardian_first_name,
-                'billEmail' => $request->guardian_email,
-                'billPhone' => $request->guardian_mobile,
-                'billPaymentChannel' => '0',
-                'billSplitPayment' => '1',
-                'chargeFPXB2B' => '1',
-            ];
-            
-            $bojek = (object) $bill;
-            $data = ToyyibpayFacade::createBill('5i0gylh0', $bojek);
-            $bill_code = $data[0]->BillCode;
-            
-            // Cipta transaksi dengan status pending
-            Transaction::create([
-                'user_id' => null, // Akan diupdate selepas user dicipta
-                'daftar_id' => $daftar->id,
-                'kelas' => $request->kelas,
-                'harga_kelas' => $request->harga_kelas,
-                'jumlah' => $request->harga_kelas,
-                'bill_code' => $bill_code,
-                'status' => 'pending',
-                'tarikh' => null, // Akan diupdate selepas pembayaran
-            ]);
+            try {
+                $bill = [
+                    'userSecretKey' => '5u2u5cii-sor5-2w3r-ubu1-z4mspf0i8ekb',
+                    'categoryCode' => '5i0gylh0',
+                    'billName' => 'Pendaftaran Kelas',
+                    'billDescription' => 'Bayaran kelas: ' . $request->kelas,
+                    'billPriceSetting' => 1,
+                    'billPayorInfo' => 1,
+                    'billExternalReferenceNo' => 'AFR341DFI',
+                    'billAmount' => $request->harga_kelas * 100,
+                    'billReturnUrl' => route('toyyibpay.callback', ['daftar_id' => $daftar->id]),
+                    'billCallbackUrl' => route('toyyibpay.callback', ['daftar_id' => $daftar->id]),
+                    'billTo' => $request->guardian_first_name,
+                    'billEmail' => $request->guardian_email,
+                    'billPhone' => $request->guardian_mobile,
+                    'billPaymentChannel' => '0',
+                    'billSplitPayment' => '1',
+                    'chargeFPXB2B' => '1',
+                ];
+                
+                $bojek = (object) $bill;
+                $data = ToyyibpayFacade::createBill('5i0gylh0', $bojek);
+                
+                // Periksa response dari Toyyibpay
+                if (!$data || !is_array($data) || empty($data)) {
+                    throw new \Exception('Sistem pembayaran tidak dapat dihubungi. Sila cuba lagi.');
+                }
+                
+                // Periksa struktur data
+                if (!isset($data[0]) || !is_object($data[0]) || !isset($data[0]->BillCode)) {
+                    throw new \Exception('Sistem pembayaran mengembalikan data yang tidak sah. Sila cuba lagi.');
+                }
+                
+                $bill_code = $data[0]->BillCode;
+                
+                // Cipta transaksi dengan status pending
+                Transaction::create([
+                    'user_id' => null, // Akan diupdate selepas user dicipta
+                    'daftar_id' => $daftar->id,
+                    'kelas' => $request->kelas,
+                    'harga_kelas' => $request->harga_kelas,
+                    'jumlah' => $request->harga_kelas,
+                    'bill_code' => $bill_code,
+                    'status' => 'pending',
+                    'tarikh' => null, // Akan diupdate selepas pembayaran
+                ]);
 
-            // Redirect ke payment link
-            return redirect(ToyyibpayFacade::billPaymentLink($bill_code));
+                // Redirect ke payment link
+                return redirect(ToyyibpayFacade::billPaymentLink($bill_code));
+                
+            } catch (\Exception $toyyibpayError) {
+                Log::error('Toyyibpay Error: ' . $toyyibpayError->getMessage());
+                
+                // Hapuskan daftar yang baru dicipta kerana pembayaran gagal
+                if (isset($daftar)) {
+                    $daftar->delete();
+                }
+                
+                return redirect('/daftar')
+                    ->with('error', 'Sistem pembayaran sedang mengalami masalah teknikal. Sila cuba lagi dalam beberapa minit atau hubungi kami untuk bantuan.')
+                    ->withInput();
+            }
 
         } catch (ValidationException $e) {
             // Return dengan error validation yang mesra pengguna

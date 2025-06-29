@@ -13,6 +13,29 @@
     <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-2xl border border-blue-200">
         <h1 class="text-3xl font-extrabold text-sky-600 mb-3 text-center ">Borang Daftar Pelajar</h1>
         <p class="text-md text-violet-800 font-medium drop-shadow-md text-center">Pilih tahun dan isi maklumat untuk mendaftar</p>
+        
+        @if(session('error'))
+            <div class="mb-4 p-4 rounded bg-red-100 text-red-800 border border-red-200">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="font-medium">{{ session('error') }}</span>
+                </div>
+            </div>
+        @endif
+        
+        @if(session('success'))
+            <div class="mb-4 p-4 rounded bg-green-100 text-green-800 border border-green-200">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="font-medium">{{ session('success') }}</span>
+                </div>
+            </div>
+        @endif
+        
         @if($errors->any())
             <div class="mb-4 p-3 rounded bg-red-100 text-red-800 border border-red-200">
                 <ul class="list-disc pl-5">
