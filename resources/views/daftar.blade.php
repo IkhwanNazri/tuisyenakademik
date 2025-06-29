@@ -322,36 +322,48 @@
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Agama *</label>
-                        <select name="religion" class="w-full border rounded px-3 py-2" required>
+                        <select name="religion" class="w-full border rounded px-3 py-2 {{ $errors->has('religion') ? 'border-red-500' : '' }}" required>
                             <option value="">Pilih</option>
-                            <option value="Islam">Islam</option>
-                            <option value="Buddha">Buddha</option>
-                            <option value="Hindu">Hindu</option>
-                            <option value="Christian">Christian</option>
-                            <option value="Other">Other</option>
+                            <option value="Islam" {{ old('religion') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                            <option value="Buddha" {{ old('religion') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                            <option value="Hindu" {{ old('religion') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                            <option value="Christian" {{ old('religion') == 'Christian' ? 'selected' : '' }}>Christian</option>
+                            <option value="Other" {{ old('religion') == 'Other' ? 'selected' : '' }}>Other</option>
                         </select>
+                        @if($errors->has('religion'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('religion') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Bangsa *</label>
-                        <select name="race" class="w-full border rounded px-3 py-2" required>
+                        <select name="race" class="w-full border rounded px-3 py-2 {{ $errors->has('race') ? 'border-red-500' : '' }}" required>
                             <option value="">Pilih</option>
-                            <option value="Malay">Malay</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="Indian">Indian</option>
-                            <option value="Other">Other</option>
+                            <option value="Malay" {{ old('race') == 'Malay' ? 'selected' : '' }}>Malay</option>
+                            <option value="Chinese" {{ old('race') == 'Chinese' ? 'selected' : '' }}>Chinese</option>
+                            <option value="Indian" {{ old('race') == 'Indian' ? 'selected' : '' }}>Indian</option>
+                            <option value="Other" {{ old('race') == 'Other' ? 'selected' : '' }}>Other</option>
                         </select>
+                        @if($errors->has('race'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('race') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Jantina *</label>
-                        <select name="gender" class="w-full border rounded px-3 py-2" required>
+                        <select name="gender" class="w-full border rounded px-3 py-2 {{ $errors->has('gender') ? 'border-red-500' : '' }}" required>
                             <option value="">Pilih</option>
-                            <option value="Male">Lelaki</option>
-                            <option value="Female">Perempuan</option>
+                            <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Lelaki</option>
+                            <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Perempuan</option>
                         </select>
+                        @if($errors->has('gender'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('gender') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Tarikh Lahir *</label>
-                        <input type="date" name="birth_date" class="w-full border rounded px-3 py-2" required>
+                        <input type="date" name="birth_date" value="{{ old('birth_date') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('birth_date') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('birth_date'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('birth_date') }}</p>
+                        @endif
                     </div>
                  
                 </div>
@@ -404,46 +416,64 @@
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Hubungan *</label>
-                        <select name="guardian_relation" class="w-full border rounded px-3 py-2" required>
+                        <select name="guardian_relation" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_relation') ? 'border-red-500' : '' }}" required>
                             <option value="">Pilih</option>
-                            <option value="Father">Bapa</option>
-                            <option value="Mother">Ibu</option>
-                            <option value="Uncle">Pakcik</option>
-                            <option value="Aunty">Makcik</option>
-                            <option value="Grandfather">Datuk</option>
-                            <option value="Grandmother">Nenek</option>
-                            <option value="Brother">Abang</option>
-                            <option value="Sister">Kakak</option>
-                            <option value="Other">Lain-lain</option>
+                            <option value="Father" {{ old('guardian_relation') == 'Father' ? 'selected' : '' }}>Bapa</option>
+                            <option value="Mother" {{ old('guardian_relation') == 'Mother' ? 'selected' : '' }}>Ibu</option>
+                            <option value="Uncle" {{ old('guardian_relation') == 'Uncle' ? 'selected' : '' }}>Pakcik</option>
+                            <option value="Aunty" {{ old('guardian_relation') == 'Aunty' ? 'selected' : '' }}>Makcik</option>
+                            <option value="Grandfather" {{ old('guardian_relation') == 'Grandfather' ? 'selected' : '' }}>Datuk</option>
+                            <option value="Grandmother" {{ old('guardian_relation') == 'Grandmother' ? 'selected' : '' }}>Nenek</option>
+                            <option value="Brother" {{ old('guardian_relation') == 'Brother' ? 'selected' : '' }}>Abang</option>
+                            <option value="Sister" {{ old('guardian_relation') == 'Sister' ? 'selected' : '' }}>Kakak</option>
+                            <option value="Other" {{ old('guardian_relation') == 'Other' ? 'selected' : '' }}>Lain-lain</option>
                         </select>
+                        @if($errors->has('guardian_relation'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_relation') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">No. Telefon Bimbit *</label>
-                        <input type="text" name="guardian_mobile" class="w-full border rounded px-3 py-2" required>
+                        <input type="text" name="guardian_mobile" value="{{ old('guardian_mobile') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_mobile') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('guardian_mobile'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_mobile') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">No. Telefon Rumah</label>
-                        <input type="text" name="guardian_home" class="w-full border rounded px-3 py-2">
+                        <input type="text" name="guardian_home" value="{{ old('guardian_home') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_home') ? 'border-red-500' : '' }}">
+                        @if($errors->has('guardian_home'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_home') }}</p>
+                        @endif
                     </div>
                     <div class="md:col-span-2">
                         <label class="block font-semibold mb-1">Alamat Rumah *</label>
-                        <input type="text" name="guardian_address" class="w-full border rounded px-3 py-2" required>
+                        <input type="text" name="guardian_address" value="{{ old('guardian_address') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_address') ? 'border-red-500' : '' }}" required>
+                        @if($errors->has('guardian_address'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_address') }}</p>
+                        @endif
                     </div>
                     <div>
                         <label class="block font-semibold mb-1">Pekerjaan</label>
-                        <input type="text" name="guardian_occupation" class="w-full border rounded px-3 py-2">
+                        <input type="text" name="guardian_occupation" value="{{ old('guardian_occupation') }}" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_occupation') ? 'border-red-500' : '' }}">
+                        @if($errors->has('guardian_occupation'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_occupation') }}</p>
+                        @endif
                     </div>
                    
                     <div>
                         <label class="block font-semibold mb-1">Gaji *</label>
-                        <select name="guardian_salary" class="w-full border rounded px-3 py-2" required>
+                        <select name="guardian_salary" class="w-full border rounded px-3 py-2 {{ $errors->has('guardian_salary') ? 'border-red-500' : '' }}" required>
                             <option value="">Pilih</option>
-                            <option value="<2000">Kurang RM2000</option>
-                            <option value="2000-3000">RM2000 - RM3000</option>
-                            <option value="3000-4000">RM3000 - RM4000</option>
-                            <option value="4000-5000">RM4000 - RM5000</option>
-                            <option value=">5000">RM5000 ke atas</option>
+                            <option value="<2000" {{ old('guardian_salary') == '<2000' ? 'selected' : '' }}>Kurang RM2000</option>
+                            <option value="2000-3000" {{ old('guardian_salary') == '2000-3000' ? 'selected' : '' }}>RM2000 - RM3000</option>
+                            <option value="3000-4000" {{ old('guardian_salary') == '3000-4000' ? 'selected' : '' }}>RM3000 - RM4000</option>
+                            <option value="4000-5000" {{ old('guardian_salary') == '4000-5000' ? 'selected' : '' }}>RM4000 - RM5000</option>
+                            <option value=">5000" {{ old('guardian_salary') == '>5000' ? 'selected' : '' }}>RM5000 ke atas</option>
                         </select>
+                        @if($errors->has('guardian_salary'))
+                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('guardian_salary') }}</p>
+                        @endif
                     </div>
                     
                 </div>

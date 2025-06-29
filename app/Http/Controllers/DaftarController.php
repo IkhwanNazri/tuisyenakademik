@@ -22,11 +22,11 @@ class DaftarController extends Controller
                 'year_intake' => 'required|string',
                 'enrollment_start' => 'required|string',
                 'kelas' => 'required|string',
-                'harga_kelas' => 'required|numeric',
+                'harga_kelas' => 'required|numeric|min:0',
                 
                 // 2.0 Student Details
-                'student_name' => 'required|string|max:255',
-                'mykid' => 'required|string|max:255',
+                'student_name' => 'required|string|min:2',
+                'mykid' => 'required|string|min:12',
                 'darjah' => 'required|string',
                 'religion' => 'required|string',
                 'race' => 'required|string',
@@ -34,15 +34,16 @@ class DaftarController extends Controller
                 'birth_date' => 'required|date',
                 
                 // 3.0 Guardian Info
-                'guardian_first_name' => 'required|string|max:255',
-                'guardian_last_name' => 'required|string|max:255',
-                'guardian_ic' => 'required|string|max:255',
-                'guardian_email' => 'required|email|unique:users,email',
-                'password' => 'required|confirmed|min:3',
+                'guardian_first_name' => 'required|string|min:2',
+                'guardian_last_name' => 'required|string|min:2',
+                'guardian_ic' => 'required|string|min:12',
+                'guardian_email' => 'required|email',
+                'password' => 'required|string|min:6',
+                'password_confirmation' => 'required|same:password',
                 'guardian_relation' => 'required|string',
-                'guardian_mobile' => 'required|string',
+                'guardian_mobile' => 'required|string|min:8',
                 'guardian_home' => 'nullable|string',
-                'guardian_address' => 'required|string',
+                'guardian_address' => 'required|string|min:5',
                 'guardian_occupation' => 'nullable|string',
                 'guardian_salary' => 'required|string',
                 
@@ -50,39 +51,42 @@ class DaftarController extends Controller
                 'how_know' => 'required|string',
             ], [
                 // Custom error messages dalam Bahasa Melayu
-                'year_intake.required' => 'Sila pilih tahun pengambilan.',
-                'enrollment_start.required' => 'Sila pilih bulan mula pengambilan.',
+                'year_intake.required' => 'Tahun pengambilan diperlukan.',
+                'enrollment_start.required' => 'Bulan mula diperlukan.',
                 'kelas.required' => 'Sila pilih kelas.',
                 'harga_kelas.required' => 'Harga kelas diperlukan.',
                 'harga_kelas.numeric' => 'Harga kelas mestilah nombor.',
+                'harga_kelas.min' => 'Harga kelas tidak sah.',
                 
                 'student_name.required' => 'Nama pelajar diperlukan.',
-                'student_name.max' => 'Nama pelajar tidak boleh melebihi 255 aksara.',
-                'mykid.required' => 'Nombor MyKID diperlukan.',
-                'mykid.max' => 'Nombor MyKID tidak boleh melebihi 255 aksara.',
-                'darjah.required' => 'Sila pilih tahun/darjah.',
-                'religion.required' => 'Sila pilih agama.',
-                'race.required' => 'Sila pilih bangsa.',
-                'gender.required' => 'Sila pilih jantina.',
+                'student_name.min' => 'Nama pelajar terlalu pendek.',
+                'mykid.required' => 'Nombor MyKid diperlukan.',
+                'mykid.min' => 'Nombor MyKid mestilah sekurang-kurangnya 12 digit.',
+                'darjah.required' => 'Tahun diperlukan.',
+                'religion.required' => 'Agama diperlukan.',
+                'race.required' => 'Bangsa diperlukan.',
+                'gender.required' => 'Jantina diperlukan.',
                 'birth_date.required' => 'Tarikh lahir diperlukan.',
                 'birth_date.date' => 'Format tarikh lahir tidak sah.',
                 
                 'guardian_first_name.required' => 'Nama pertama penjaga diperlukan.',
-                'guardian_first_name.max' => 'Nama pertama tidak boleh melebihi 255 aksara.',
+                'guardian_first_name.min' => 'Nama pertama penjaga terlalu pendek.',
                 'guardian_last_name.required' => 'Nama akhir penjaga diperlukan.',
-                'guardian_last_name.max' => 'Nama akhir tidak boleh melebihi 255 aksara.',
+                'guardian_last_name.min' => 'Nama akhir penjaga terlalu pendek.',
                 'guardian_ic.required' => 'Nombor IC penjaga diperlukan.',
-                'guardian_ic.max' => 'Nombor IC tidak boleh melebihi 255 aksara.',
+                'guardian_ic.min' => 'Nombor IC penjaga mestilah sekurang-kurangnya 12 digit.',
                 'guardian_email.required' => 'Alamat email diperlukan.',
-                'guardian_email.email' => 'Format email tidak sah. Sila masukkan email yang betul (contoh: nama@email.com).',
-                'guardian_email.unique' => 'Email ini sudah didaftarkan. Sila gunakan email lain.',
+                'guardian_email.email' => 'Format alamat email tidak sah.',
                 'password.required' => 'Kata laluan diperlukan.',
-                'password.confirmed' => 'Pengesahan kata laluan tidak sepadan.',
-                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 3 aksara.',
-                'guardian_relation.required' => 'Sila pilih hubungan dengan pelajar.',
+                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 6 aksara.',
+                'password_confirmation.required' => 'Pengesahan kata laluan diperlukan.',
+                'password_confirmation.same' => 'Kata laluan dan pengesahan kata laluan tidak sepadan.',
+                'guardian_relation.required' => 'Hubungan dengan pelajar diperlukan.',
                 'guardian_mobile.required' => 'Nombor telefon bimbit diperlukan.',
+                'guardian_mobile.min' => 'Nombor telefon bimbit terlalu pendek.',
                 'guardian_address.required' => 'Alamat rumah diperlukan.',
-                'guardian_salary.required' => 'Sila pilih julat gaji.',
+                'guardian_address.min' => 'Alamat rumah terlalu pendek.',
+                'guardian_salary.required' => 'Gaji diperlukan.',
                 
                 'how_know.required' => 'Sila pilih bagaimana anda tahu tentang kami.',
             ]);
@@ -122,8 +126,106 @@ class DaftarController extends Controller
                 'status' => 'pending',
             ]);
 
+            // Validation tambahan sebelum hantar ke Toyyibpay
+            $validationErrors = [];
+            
+            // Periksa email format
+            if (!filter_var($request->guardian_email, FILTER_VALIDATE_EMAIL)) {
+                $validationErrors[] = 'Alamat email tidak sah. Sila masukkan email yang betul (contoh: nama@email.com).';
+            }
+            
+            // Periksa nombor telefon (mestilah nombor sahaja)
+            if (!preg_match('/^[0-9+\-\s()]+$/', $request->guardian_mobile)) {
+                $validationErrors[] = 'Nombor telefon tidak sah. Sila masukkan nombor telefon yang betul.';
+            }
+            
+            // Periksa nama (tidak boleh kosong atau terlalu pendek)
+            if (strlen(trim($request->guardian_first_name)) < 2) {
+                $validationErrors[] = 'Nama pertama terlalu pendek. Sila masukkan nama yang betul.';
+            }
+            
+            if (strlen(trim($request->guardian_last_name)) < 2) {
+                $validationErrors[] = 'Nama akhir terlalu pendek. Sila masukkan nama yang betul.';
+            }
+            
+            // Periksa harga kelas
+            if (!is_numeric($request->harga_kelas) || $request->harga_kelas <= 0) {
+                $validationErrors[] = 'Harga kelas tidak sah. Sila pilih kelas yang betul.';
+            }
+            
+            // Periksa field lain yang diperlukan
+            if (empty(trim($request->student_name))) {
+                $validationErrors[] = 'Nama pelajar tidak boleh kosong.';
+            }
+            
+            if (empty(trim($request->mykid))) {
+                $validationErrors[] = 'Nombor MyKid tidak boleh kosong.';
+            }
+            
+            if (empty(trim($request->guardian_ic))) {
+                $validationErrors[] = 'Nombor IC penjaga tidak boleh kosong.';
+            }
+            
+            if (empty(trim($request->guardian_address))) {
+                $validationErrors[] = 'Alamat tidak boleh kosong.';
+            }
+            
+            if (empty(trim($request->password))) {
+                $validationErrors[] = 'Kata laluan tidak boleh kosong.';
+            } elseif (strlen($request->password) < 6) {
+                $validationErrors[] = 'Kata laluan mestilah sekurang-kurangnya 6 aksara.';
+            }
+            
+            // Periksa password confirmation
+            if (empty(trim($request->password_confirmation))) {
+                $validationErrors[] = 'Pengesahan kata laluan tidak boleh kosong.';
+            } elseif ($request->password !== $request->password_confirmation) {
+                $validationErrors[] = 'Kata laluan dan pengesahan kata laluan tidak sepadan.';
+            }
+            
+            // Periksa format nombor IC (12 digit)
+            if (!preg_match('/^\d{12}$/', preg_replace('/[^0-9]/', '', $request->guardian_ic))) {
+                $validationErrors[] = 'Nombor IC penjaga mestilah 12 digit nombor.';
+            }
+            
+            // Periksa format MyKid (12 digit)
+            if (!preg_match('/^\d{12}$/', preg_replace('/[^0-9]/', '', $request->mykid))) {
+                $validationErrors[] = 'Nombor MyKid mestilah 12 digit nombor.';
+            }
+            
+            // Jika ada validation errors, hapuskan daftar dan return error
+            if (!empty($validationErrors)) {
+                $daftar->delete();
+                return redirect('/daftar')
+                    ->with('error', implode(' ', $validationErrors))
+                    ->withInput();
+            }
+
             // Cipta bill Toyyibpay
             try {
+                // Bersihkan data sebelum hantar ke Toyyibpay
+                $cleanEmail = filter_var(trim($request->guardian_email), FILTER_SANITIZE_EMAIL);
+                $cleanPhone = preg_replace('/[^0-9+\-\s()]/', '', $request->guardian_mobile);
+                $cleanName = trim($request->guardian_first_name);
+                $cleanAmount = (int)($request->harga_kelas * 100); // Convert to cents
+                
+                // Periksa data yang telah dibersihkan
+                if (empty($cleanEmail) || !filter_var($cleanEmail, FILTER_VALIDATE_EMAIL)) {
+                    throw new \Exception('Alamat email tidak sah. Sila masukkan email yang betul (contoh: nama@email.com).');
+                }
+                
+                if (empty($cleanPhone) || strlen($cleanPhone) < 8) {
+                    throw new \Exception('Nombor telefon tidak sah. Sila masukkan nombor telefon yang betul.');
+                }
+                
+                if (empty($cleanName) || strlen($cleanName) < 2) {
+                    throw new \Exception('Nama tidak sah. Sila masukkan nama yang betul.');
+                }
+                
+                if ($cleanAmount <= 0) {
+                    throw new \Exception('Jumlah bayaran tidak sah. Sila pilih kelas yang betul.');
+                }
+                
                 $bill = [
                     'userSecretKey' => '5u2u5cii-sor5-2w3r-ubu1-z4mspf0i8ekb',
                     'categoryCode' => '5i0gylh0',
@@ -132,12 +234,12 @@ class DaftarController extends Controller
                     'billPriceSetting' => 1,
                     'billPayorInfo' => 1,
                     'billExternalReferenceNo' => 'AFR341DFI',
-                    'billAmount' => $request->harga_kelas * 100,
+                    'billAmount' => $cleanAmount,
                     'billReturnUrl' => route('toyyibpay.callback', ['daftar_id' => $daftar->id]),
                     'billCallbackUrl' => route('toyyibpay.callback', ['daftar_id' => $daftar->id]),
-                    'billTo' => $request->guardian_first_name,
-                    'billEmail' => $request->guardian_email,
-                    'billPhone' => $request->guardian_mobile,
+                    'billTo' => $cleanName,
+                    'billEmail' => $cleanEmail,
+                    'billPhone' => $cleanPhone,
                     'billPaymentChannel' => '0',
                     'billSplitPayment' => '1',
                     'chargeFPXB2B' => '1',
@@ -181,8 +283,31 @@ class DaftarController extends Controller
                     $daftar->delete();
                 }
                 
+                // Berikan mesej yang lebih spesifik berdasarkan error
+                $errorMessage = $toyyibpayError->getMessage();
+                
+                // Jika error message sudah dalam Bahasa Melayu, gunakan terus
+                if (strpos($errorMessage, 'Sila') !== false || strpos($errorMessage, 'tidak sah') !== false) {
+                    // Error message sudah dalam format yang betul
+                } else {
+                    // Error message masih teknikal, tukar kepada mesej mesra pengguna
+                    if (strpos($errorMessage, 'email') !== false || strpos($errorMessage, 'Email') !== false) {
+                        $errorMessage = 'Alamat email tidak sah. Sila masukkan email yang betul (contoh: nama@email.com).';
+                    } elseif (strpos($errorMessage, 'phone') !== false || strpos($errorMessage, 'Phone') !== false) {
+                        $errorMessage = 'Nombor telefon tidak sah. Sila masukkan nombor telefon yang betul.';
+                    } elseif (strpos($errorMessage, 'amount') !== false || strpos($errorMessage, 'Amount') !== false) {
+                        $errorMessage = 'Jumlah bayaran tidak sah. Sila pilih kelas yang betul.';
+                    } elseif (strpos($errorMessage, 'name') !== false || strpos($errorMessage, 'Name') !== false) {
+                        $errorMessage = 'Nama tidak sah. Sila masukkan nama yang betul.';
+                    } elseif (strpos($errorMessage, 'connection') !== false || strpos($errorMessage, 'timeout') !== false) {
+                        $errorMessage = 'Sistem pembayaran tidak dapat dihubungi. Sila cuba lagi dalam beberapa minit.';
+                    } else {
+                        $errorMessage = 'Sistem pembayaran sedang mengalami masalah teknikal. Sila cuba lagi dalam beberapa minit atau hubungi kami untuk bantuan.';
+                    }
+                }
+                
                 return redirect('/daftar')
-                    ->with('error', 'Sistem pembayaran sedang mengalami masalah teknikal. Sila cuba lagi dalam beberapa minit atau hubungi kami untuk bantuan.')
+                    ->with('error', $errorMessage)
                     ->withInput();
             }
 
