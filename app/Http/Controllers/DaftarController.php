@@ -61,7 +61,7 @@ class DaftarController extends Controller
                 'student_name.required' => 'Nama pelajar diperlukan.',
                 'student_name.min' => 'Nama pelajar terlalu pendek.',
                 'mykid.required' => 'Nombor MyKid diperlukan.',
-                'mykid.min' => 'Nombor MyKid mestilah sekurang-kurangnya 12 digit.',
+                'mykid.min' => 'Nombor MyKid mestilah sekurang-kurangnya 3 digit.',
                 'darjah.required' => 'Tahun diperlukan.',
                 'religion.required' => 'Agama diperlukan.',
                 'race.required' => 'Bangsa diperlukan.',
@@ -74,11 +74,11 @@ class DaftarController extends Controller
                 'guardian_last_name.required' => 'Nama akhir penjaga diperlukan.',
                 'guardian_last_name.min' => 'Nama akhir penjaga terlalu pendek.',
                 'guardian_ic.required' => 'Nombor IC penjaga diperlukan.',
-                'guardian_ic.min' => 'Nombor IC penjaga mestilah sekurang-kurangnya 12 digit.',
+                'guardian_ic.min' => 'Nombor IC penjaga mestilah sekurang-kurangnya 3 digit.',
                 'guardian_email.required' => 'Alamat email diperlukan.',
                 'guardian_email.email' => 'Format alamat email tidak sah.',
                 'password.required' => 'Kata laluan diperlukan.',
-                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 6 aksara.',
+                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 3 aksara.',
                 'password_confirmation.required' => 'Pengesahan kata laluan diperlukan.',
                 'password_confirmation.same' => 'Kata laluan dan pengesahan kata laluan tidak sepadan.',
                 'guardian_relation.required' => 'Hubungan dengan pelajar diperlukan.',
@@ -173,7 +173,7 @@ class DaftarController extends Controller
             if (empty(trim($request->password))) {
                 $validationErrors[] = 'Kata laluan tidak boleh kosong.';
             } elseif (strlen($request->password) < 3) {
-                $validationErrors[] = 'Kata laluan mestilah sekurang-kurangnya 6 aksara.';
+                $validationErrors[] = 'Kata laluan mestilah sekurang-kurangnya 3 aksara.';
             }
             
             // Periksa password confirmation
@@ -183,14 +183,14 @@ class DaftarController extends Controller
                 $validationErrors[] = 'Kata laluan dan pengesahan kata laluan tidak sepadan.';
             }
             
-            // Periksa format nombor IC (12 digit)
+            // Periksa format nombor IC (3 digit)
             if (!preg_match('/^\d{3}$/', preg_replace('/[^0-9]/', '', $request->guardian_ic))) {
-                $validationErrors[] = 'Nombor IC penjaga mestilah 12 digit nombor.';
+                $validationErrors[] = 'Nombor IC penjaga mestilah 3 digit nombor.';
             }
             
-            // Periksa format MyKid (12 digit)
+            // Periksa format MyKid (3 digit)
             if (!preg_match('/^\d{3}$/', preg_replace('/[^0-9]/', '', $request->mykid))) {
-                $validationErrors[] = 'Nombor MyKid mestilah 12 digit nombor.';
+                $validationErrors[] = 'Nombor MyKid mestilah 3 digit nombor.';
             }
             
             // Jika ada validation errors, hapuskan daftar dan return error
