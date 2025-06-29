@@ -26,7 +26,7 @@ class DaftarController extends Controller
                 
                 // 2.0 Student Details
                 'student_name' => 'required|string|min:2',
-                'mykid' => 'required|string|min:12',
+                'mykid' => 'required|string|min:3',
                 'darjah' => 'required|string',
                 'religion' => 'required|string',
                 'race' => 'required|string',
@@ -38,7 +38,7 @@ class DaftarController extends Controller
                 'guardian_last_name' => 'required|string|min:2',
                 'guardian_ic' => 'required|string|min:12',
                 'guardian_email' => 'required|email',
-                'password' => 'required|string|min:6',
+                'password' => 'required|string|min:3',
                 'password_confirmation' => 'required|same:password',
                 'guardian_relation' => 'required|string',
                 'guardian_mobile' => 'required|string|min:8',
